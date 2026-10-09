@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://www.isoloom.com/schema/v1.json
+# CloudGoat lambda_privesc by Rhino Security Labs (https://github.com/RhinoSecurityLabs/cloudgoat),
+# scenario by Ng Song Guan (GovTech-CSG): starting as the IAM user Chris, assume a role with full
+# Lambda access and iam:PassRole, then escalate to administrator through a Lambda function. IAM only.
+# Source in app/ (upstream, unchanged); the Terraform root is the scenario's own terraform/ folder,
+# fed the variables CloudGoat's CLI would pass (profile, cgid).
+# Run: `aws login`, then `isoloom run cloud-services`; end it with `isoloom down cloud-services`.
+version: 1
+name: cloudgoat-lambda-privesc
+
+cloud:
+  provider: aws
+  terraform: app/cloudgoat/scenarios/aws/lambda_privesc/terraform
+  vars:
+    region: us-east-1
+    profile: default
+    cgid: isoloom
+  outputs:
+    access_key_id: cloudgoat_output_chris_access_key_id
+    secret_key: cloudgoat_output_chris_secret_key
+  hourly_usd: 0
+
+checks:
+  - name: the user Chris can sign in and the scenario's roles exist
+    script: checks/start.sh
+    wait: 120
+
+message: |
+  You are the IAM user Chris:
+    aws configure --profile chris   # access key {{ cloud.outputs.access_key_id }}
+                                    # secret key {{ cloud.outputs.secret_key }}
+  Goal: full administrator access. Delete any resource you create yourself before
+  `isoloom down cloud-services`. Cheat sheet:
+  app/cloudgoat/scenarios/aws/lambda_privesc/cheat_sheet_chris.md

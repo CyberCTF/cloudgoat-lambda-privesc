@@ -1,0 +1,8 @@
+{
+  "title": "CloudGoat: Lambda privesc",
+  "description": "A CloudGoat scenario by Ng Song Guan (GovTech-CSG) and Rhino Security Labs, deployed into your own AWS account: starting as the IAM user Chris, assume a role with full Lambda access and iam:PassRole, then escalate to administrator through a Lambda function running as a privileged role.",
+  "question": "Escalate from the IAM user Chris to full administrator access.",
+  "category": "MISC",
+  "difficulty": 1,
+  "evidence_kind": "SECRET"
+}
