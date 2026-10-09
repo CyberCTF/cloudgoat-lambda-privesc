@@ -57,5 +57,15 @@
       }
     ]
   },
-  "message": null
+  "cloud": {
+    "provider": "aws",
+    "terraform": "app/cloudgoat/scenarios/aws/lambda_privesc/terraform",
+    "outputs": [
+      "access_key_id",
+      "secret_key"
+    ],
+    "inputs": [],
+    "hourly_usd": 0.0
+  },
+  "message": "You are the IAM user Chris:\n  aws configure --profile chris   # access key {{ cloud.outputs.access_key_id }}\n                                  # secret key {{ cloud.outputs.secret_key }}\nGoal: full administrator access. Delete any resource you create yourself before\n`isoloom down cloud-services`. Cheat sheet:\napp/cloudgoat/scenarios/aws/lambda_privesc/cheat_sheet_chris.md\n"
 }
